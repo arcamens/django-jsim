@@ -1,10 +1,11 @@
 ##############################################################################
 # push, update.
 
-cd ~/projects/projecteuler.python-code
+cd ~/projects/django-jsim-code-code
 git status
 git add *
 git commit -a
 git push
+
 
 
