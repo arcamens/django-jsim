@@ -1,0 +1,32 @@
+<div id="{{jscroll_template}}">
+
+</div>
+
+<script>
+var count = 0;
+
+function autoScroll() {
+    if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight * 60/100.0) {
+        count = count + 1;
+    
+        $('#{{template}}').off('scroll');
+    
+        $.get({ 
+            url: "{% url 'jsim:jscroll' %}",
+            data: {
+                page : count,
+                jscroll-template: {{template}},
+            },
+
+        },
+
+
+        function(data) {
+            $('#{{template}}').on('scroll', autoScroll);
+            $('#{{template}}').append(data);
+        });
+    }
+}
+
+$('#{{template}}').on('scroll', autoScroll);
+</script>

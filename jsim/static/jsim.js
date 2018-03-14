@@ -90,18 +90,25 @@ function mPostClose(e) {
     url: url,  //Server script to process data
     type: 'POST',
 
-    success: function(data) {
+    complete: function(jqXHR, textStatus) {
+    switch (jqXHR.status) {
 
-    $(shell).html(data);
+    case 200: 
+    $(shell).html(jqXHR.responseText);
     $(e.target).closest('.modal').modal('hide');
     $('#modalWait').modal('hide');
+    break;
 
-    },
-
-    error: function(data){
+    case 400: 
     $('#modalWait').modal('hide');
-    $(e.target).closest('.modal-content').html(data.responseText);
-    },
+    $(e.target).closest('.modal-content').html(jqXHR.responseText);
+    break;
+
+    default: 
+    $('#modalWait').modal('hide');
+    $('#modalError').modal('show');
+    $('#messageError').html(jqXHR.responseText);
+    }},
 
     data: formData,
     cache: false,
@@ -132,15 +139,23 @@ function mPost(e) {
     url: url,  //Server script to process data
     type: 'POST',
 
-    success: function(data) {
-    shell.html(data);
-    $('#modalWait').modal('hide');
-    },
+    complete: function(jqXHR, textStatus) {
+    switch (jqXHR.status) {
 
-    error: function(data){
-    shell.html(data.responseText);
+    case 200: 
+    shell.html(jqXHR.responseText);
     $('#modalWait').modal('hide');
-    },
+
+    case 400: 
+    shell.html(jqXHR.responseText);
+    $('#modalWait').modal('hide');
+    break;
+
+    default: 
+    $('#modalWait').modal('hide');
+    $('#modalError').modal('show');
+    $('#messageError').html(jqXHR.responseText);
+    }},
 
     data: formData,
     cache: false,
@@ -185,6 +200,7 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 
 
