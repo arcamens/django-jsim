@@ -11,6 +11,7 @@ function seed() {
         data: {
             page : 1,
             'jscroll-template': '{{template}}',
+            token: {{token}},
         }},
 
         function(data) {
@@ -30,6 +31,7 @@ function autoScroll() {
         data: {
             page : count,
             'jscroll-template': '{{template}}',
+            token: {{token}},
         }},
 
         function(data) {
