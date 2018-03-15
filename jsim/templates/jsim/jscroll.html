@@ -6,8 +6,10 @@
 var count = 1;
 
 function autoScroll() {
-    console.log('it is now being executed', count);
-    if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight * 60/100.0) {
+    n = $(this).scrollTop() + $(this).innerHeight();
+    m = $(this)[0].scrollHeight * 60/100.0
+
+    if ( n >= m) {
         count = count + 1;
     
         $('#{{viewport}}').off('scroll');
@@ -16,20 +18,21 @@ function autoScroll() {
         type: 'GET',
         url: "{% url 'jsim:jscroll-view' %}",
         async: false,
+
         data: {
-            page : count,
-            'jscroll-template': '{{template}}',
+        page : count,
+        'jscroll-template': '{{template}}',
         },
 
         success: function(data) {
-            $('#{{viewport}}').append(data.responseText);
-            $('#{{viewport}}').on('scroll', autoScroll);
-            console.log('Page ', count);
+        $('#{{viewport}}').append(data.responseText);
+        $('#{{viewport}}').on('scroll', autoScroll);
+        console.log('Page ', count);
         },
 
         error: function(data) {
-            $('#{{viewport}}').off('scroll');
-            console.log('Page error', count);
+        $('#{{viewport}}').off('scroll');
+        console.log('Page error', count);
         }});
     }
 }
@@ -45,10 +48,10 @@ function(data) {
 $('#{{viewport}}').html('');
 $('#{{viewport}}').append(data);
 $('#{{viewport}}').on('scroll', autoScroll);
-    console.log('this is fucking odd', count);
 
 });
 
 
 </script>
+
 

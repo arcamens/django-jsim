@@ -20,6 +20,12 @@ class JScroll:
         'viewport': viewport})
         return data
 
+    def as_window(self):
+        pass
+
+    def as_div(self):
+        pass
+
 class JScrollView(View):
     def get(self, request):
         template  = request.GET.get('jscroll-template')
@@ -29,6 +35,7 @@ class JScrollView(View):
         paginator = Paginator(queryset, 20)
         elems     = paginator.page(int(page))
         return render(request, template, {'elems': queryset})
+
 
 
 
