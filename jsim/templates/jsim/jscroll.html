@@ -15,7 +15,6 @@ function seed() {
         }},
 
         function(data) {
-            $('#{{viewport}}').on('scroll', autoScroll);
             $('#{{viewport}}').append(data);
         });
 }
@@ -38,6 +37,8 @@ function autoScroll() {
             $('#{{viewport}}').on('scroll', autoScroll);
             $('#{{viewport}}').append(data);
         });
+        console.log('Page ', count);
+
     }
 }
 
