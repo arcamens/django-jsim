@@ -6,10 +6,12 @@
 var count = 1;
 
 function autoScroll() {
-    n = $(window).scrollTop() + $(this).innerHeight();
-    m = $(window)[0].scrollHeight * 60/100.0;
+    var scrollHeight = $(document).height();
+    var scrollPosition = $(window).height() + $(window).scrollTop();
+    console.log('Value', (scrollHeight - scrollPosition) / scrollHeight);
 
-    if ( n >= m) {
+    if ((scrollHeight - scrollPosition) / scrollHeight < 0.3) {
+        console.log('Scroll', count);
         count = count + 1;
     
         $(window).off('scroll');
@@ -32,6 +34,7 @@ function autoScroll() {
 
         error: function(data) {
         $(window).off('scroll');
+
         console.log('Page error', count);
         }});
         console.log('scrolling', count);
