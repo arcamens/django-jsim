@@ -7,7 +7,7 @@ setup(name="jsim",
       description="",
       packages=["jsim", "jsim.templatetags", 
       "jsim.templates", "jsim.static", "jsim.templates.jsim"],
-      package_data={'jsim.templates.jsim': ['jsim.html', 'jscroll.html'], 
+      package_data={'jsim.templates.jsim': ['jsim.html', 'jscroll.html', 'jscroll-window.html'], 
       'jsim.static':['jsim.js']},
 
       author="Iury O. G. Figueiredo",
@@ -16,6 +16,7 @@ setup(name="jsim",
       download_url='',
       keywords=[],
       classifiers=[])
+
 
 
 

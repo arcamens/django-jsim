@@ -1,4 +1,4 @@
-<div id="{{viewport}}" class="pre-scrollable">
+<div id="{{viewport}}">
 
 </div>
 
@@ -6,13 +6,13 @@
 var count = 1;
 
 function autoScroll() {
-    n = $(this).scrollTop() + $(this).innerHeight();
-    m = $(this)[0].scrollHeight * 60/100.0;
+    n = $(window).scrollTop() + $(this).innerHeight();
+    m = $(window)[0].scrollHeight * 60/100.0;
 
     if ( n >= m) {
         count = count + 1;
     
-        $('#{{viewport}}').off('scroll');
+        $(window).off('scroll');
     
         $.ajax({ 
         type: 'GET',
@@ -26,14 +26,16 @@ function autoScroll() {
 
         success: function(data) {
         $('#{{viewport}}').append(data);
-        $('#{{viewport}}').on('scroll', autoScroll);
+        $(window).on('scroll', autoScroll);
         console.log('Page ', count);
         },
 
         error: function(data) {
-        $('#{{viewport}}').off('scroll');
+        $(window).off('scroll');
         console.log('Page error', count);
         }});
+        console.log('scrolling', count);
+
     }
 }
 
@@ -47,13 +49,11 @@ page : 1,
 function(data) {
 $('#{{viewport}}').html('');
 $('#{{viewport}}').append(data);
-$('#{{viewport}}').on('scroll', autoScroll);
+$(window).on('scroll', autoScroll);
 
 });
 
 
 </script>
-
-
 
 

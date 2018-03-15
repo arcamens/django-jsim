@@ -21,7 +21,11 @@ class JScroll:
         return data
 
     def as_window(self):
-        pass
+        viewport = sub('/|\.', '', self.template)
+        tmp = get_template('jsim/jscroll-window.html')
+        data = tmp.render({'template': self.template,
+        'viewport': viewport})
+        return data
 
     def as_div(self):
         pass
@@ -33,8 +37,9 @@ class JScrollView(View):
         queryset  = request.session['jscroll-%s' % template]
 
         paginator = Paginator(queryset, 20)
-        elems     = paginator.page(int(page))
-        return render(request, template, {'elems': queryset})
+        elems     = paginator.page(page)
+        return render(request, template, {'elems': elems})
+
 
 
 
