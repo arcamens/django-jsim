@@ -8,7 +8,7 @@ from django.apps import apps
 import pickle
 from re import sub
 
-class JScroll(View):
+class JScroll:
     def __init__(self, template, queryset, token):
         cache.set('%s-jscroll-%s' % (token, template),  
         pickle.dumps(queryset))

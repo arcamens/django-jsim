@@ -16,6 +16,7 @@ function seed() {
 
         function(data) {
             $('#{{viewport}}').append(data);
+            $('#{{viewport}}').on('scroll', autoScroll);
         });
 }
 
@@ -42,6 +43,6 @@ function autoScroll() {
     }
 }
 
-$('#{{viewport}}').on('scroll', autoScroll);
 seed();
 </script>
+
