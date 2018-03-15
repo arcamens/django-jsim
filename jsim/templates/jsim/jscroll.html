@@ -35,8 +35,8 @@ function autoScroll() {
         }},
 
         function(data) {
-            $('#{{viewport}}').on('scroll', autoScroll);
             $('#{{viewport}}').append(data);
+            $('#{{viewport}}').on('scroll', autoScroll);
         });
         console.log('Page ', count);
 
