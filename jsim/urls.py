@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import jscroll
 
 urlpatterns = [
-    url(r'^jscroll/$', jscroll.JScroll.as_view(), name='jscroll'),
+    url(r'^jscroll-view/$', jscroll.JScrollView.as_view(), name='jscroll-view'),
 ]
 
 

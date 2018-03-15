@@ -2,31 +2,36 @@ from django.core.paginator import Paginator, EmptyPage
 from django.template.loader import get_template
 from django.views.generic import View
 from django.db.models import QuerySet
+from django.core.cache import cache
 from django.shortcuts import render
+from django.apps import apps
+import pickle
+from re import sub
 
 class JScroll(View):
-    def __init__(self, request, template, context, *args, **kwargs):
-        super(JScroll, self).__init__(*args,**kwargs)
-
-        context = dict(map(lambda ind: (ind[0], 
-        str(ind[1].query)), context.items()))
-
-        request.session['jscroll-%s' % template] = {
-        'context': context}
+    def __init__(self, request, template, queryset):
+        cache.set('jscroll-%s' % template,  pickle.dumps(queryset))
 
         self.template = template
 
-    def get(self, request):
-        template = request.GET.get('jscroll-template')
-        key      = 'jscroll-%s' % template
-        context  = request.session[key]['context']
-        
-        context = dict(map(lambda ind: (ind[0], 
-        QuerySet(ind[1]))), context.items())
-
-        return render(request, template, context)
-
     def as_html(self):
+        viewport = sub('/|\.', '', self.template)
         tmp = get_template('jsim/jscroll.html')
-        return tmp.render({'template': self.template})
+        data = tmp.render({'template': self.template,
+        'viewport': viewport})
+        return data
+
+class JScrollView(View):
+    def get(self, request):
+        template  = request.GET.get('jscroll-template')
+        page      = request.GET.get('page')
+        queryset  = cache.get('jscroll-%s' % template)
+        queryset  = pickle.loads(queryset)
+        print('the queryset', queryset)
+
+        # paginator = Paginator(elems, 20)
+        # elems     = paginator.page(int(page))
+        # print('the page' * 100, page)
+        return render(request, template, {'elems': queryset})
+
 

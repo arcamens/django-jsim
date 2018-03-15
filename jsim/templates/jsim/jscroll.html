@@ -1,32 +1,44 @@
-<div id="{{jscroll_template}}">
+<div id="{{viewport}}" class="pre-scrollable">
 
 </div>
 
 <script>
-var count = 0;
+var count = 1;
+
+function seed() {
+        $.get({ 
+        url: "{% url 'jsim:jscroll-view' %}",
+        data: {
+            page : 1,
+            'jscroll-template': '{{template}}',
+        }},
+
+        function(data) {
+            $('#{{viewport}}').on('scroll', autoScroll);
+            $('#{{viewport}}').append(data);
+        });
+}
 
 function autoScroll() {
     if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight * 60/100.0) {
         count = count + 1;
     
-        $('#{{template}}').off('scroll');
+        $('#{{viewport}}').off('scroll');
     
         $.get({ 
-            url: "{% url 'jsim:jscroll' %}",
-            data: {
-                page : count,
-                jscroll-template: {{template}},
-            },
-
-        },
-
+        url: "{% url 'jsim:jscroll-view' %}",
+        data: {
+            page : count,
+            'jscroll-template': '{{template}}',
+        }},
 
         function(data) {
-            $('#{{template}}').on('scroll', autoScroll);
-            $('#{{template}}').append(data);
+            $('#{{viewport}}').on('scroll', autoScroll);
+            $('#{{viewport}}').append(data);
         });
     }
 }
 
-$('#{{template}}').on('scroll', autoScroll);
+$('#{{viewport}}').on('scroll', autoScroll);
+seed();
 </script>
