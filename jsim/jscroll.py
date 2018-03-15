@@ -13,13 +13,6 @@ class JScroll:
         request.session['jscroll-%s' %  template] = queryset
         self.template = template
 
-    def as_html(self):
-        viewport = sub('/|\.', '', self.template)
-        tmp = get_template('jsim/jscroll.html')
-        data = tmp.render({'template': self.template,
-        'viewport': viewport})
-        return data
-
     def as_window(self):
         viewport = sub('/|\.', '', self.template)
         tmp = get_template('jsim/jscroll-window.html')
@@ -28,7 +21,11 @@ class JScroll:
         return data
 
     def as_div(self):
-        pass
+        viewport = sub('/|\.', '', self.template)
+        tmp = get_template('jsim/jscroll.html')
+        data = tmp.render({'template': self.template,
+        'viewport': viewport})
+        return data
 
 class JScrollView(View):
     def get(self, request):
