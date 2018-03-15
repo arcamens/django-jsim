@@ -5,23 +5,8 @@
 <script>
 var count = 1;
 
-function seed() {
-        $.get({ 
-        url: "{% url 'jsim:jscroll-view' %}",
-        data: {
-            page : 1,
-            'jscroll-template': '{{template}}',
-            token: {{token}},
-        }},
-
-        function(data) {
-            $('#{{viewport}}').html('');
-            $('#{{viewport}}').append(data);
-            $('#{{viewport}}').on('scroll', autoScroll);
-        });
-}
-
 function autoScroll() {
+    console.log('it is now being executed', count);
     if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight * 60/100.0) {
         count = count + 1;
     
@@ -50,6 +35,22 @@ function autoScroll() {
     }
 }
 
-seed();
+$.get({ 
+url: "{% url 'jsim:jscroll-view' %}",
+data: {
+page : 1,
+'jscroll-template': '{{template}}',
+token: {{token}},
+}},
+
+function(data) {
+$('#{{viewport}}').html('');
+$('#{{viewport}}').append(data);
+$('#{{viewport}}').on('scroll', autoScroll);
+    console.log('this is fucking odd', count);
+
+});
+
+
 </script>
 

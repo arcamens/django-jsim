@@ -145,6 +145,7 @@ function mPost(e) {
     case 200: 
     shell.html(jqXHR.responseText);
     $('#modalWait').modal('hide');
+    break;
 
     case 400: 
     shell.html(jqXHR.responseText);
@@ -200,6 +201,7 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 
 
