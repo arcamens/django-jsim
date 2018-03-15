@@ -26,20 +26,25 @@ function autoScroll() {
     
         $('#{{viewport}}').off('scroll');
     
-        $.get({ 
+        $.ajax({ 
+        type: 'GET',
         url: "{% url 'jsim:jscroll-view' %}",
         data: {
             page : count,
             'jscroll-template': '{{template}}',
             token: {{token}},
-        }},
+        },
 
-        function(data) {
-            $('#{{viewport}}').append(data);
+        success: function(data) {
+            $('#{{viewport}}').append(data.responseText);
             $('#{{viewport}}').on('scroll', autoScroll);
-        });
-        console.log('Page ', count);
+            console.log('Page ', count);
+        },
 
+        error: function(data) {
+            $('#{{viewport}}').off('scroll');
+            console.log('Page error', count);
+        }});
     }
 }
 
