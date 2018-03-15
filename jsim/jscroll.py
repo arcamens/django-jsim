@@ -32,9 +32,8 @@ class JScrollView(View):
         queryset  = cache.get('%s-jscroll-%s' % (token, template))
         queryset  = pickle.loads(queryset)
 
-        # paginator = Paginator(elems, 20)
-        # elems     = paginator.page(int(page))
-        # print('the page' * 100, page)
+        paginator = Paginator(queryset, 20)
+        elems     = paginator.page(int(page))
         return render(request, template, {'elems': queryset})
 
 
