@@ -9,28 +9,22 @@ import pickle
 from re import sub
 
 class JScroll:
-    def __init__(self, template, queryset, token):
-        cache.set('%s-jscroll-%s' % (token, template),  
-        pickle.dumps(queryset))
-
+    def __init__(self, request, template, queryset):
+        request.session['jscroll-%s' %  template] = queryset
         self.template = template
-        self.token    = token
 
     def as_html(self):
         viewport = sub('/|\.', '', self.template)
         tmp = get_template('jsim/jscroll.html')
         data = tmp.render({'template': self.template,
-        'viewport': viewport, 'token': self.token})
+        'viewport': viewport})
         return data
 
 class JScrollView(View):
     def get(self, request):
         template  = request.GET.get('jscroll-template')
         page      = request.GET.get('page')
-        token     = request.GET.get('token')
-
-        queryset  = cache.get('%s-jscroll-%s' % (token, template))
-        queryset  = pickle.loads(queryset).order_by('id')
+        queryset  = request.session['jscroll-%s' % template]
 
         paginator = Paginator(queryset, 20)
         elems     = paginator.page(int(page))
