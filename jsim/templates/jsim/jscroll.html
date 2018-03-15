@@ -15,6 +15,7 @@ function seed() {
         }},
 
         function(data) {
+            $('#{{viewport}}').html('');
             $('#{{viewport}}').append(data);
             $('#{{viewport}}').on('scroll', autoScroll);
         });
@@ -29,6 +30,7 @@ function autoScroll() {
         $.ajax({ 
         type: 'GET',
         url: "{% url 'jsim:jscroll-view' %}",
+        async: false,
         data: {
             page : count,
             'jscroll-template': '{{template}}',
