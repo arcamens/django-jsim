@@ -23,6 +23,7 @@ function autoScroll() {
 
         data: {
         page : count,
+        token: {{token}},
         'jscroll-template': '{{template}}',
         },
 
@@ -46,6 +47,7 @@ $.get({
 url: "{% url 'jsim:jscroll-view' %}",
 data: {
 page : 1,
+token: {{token}},
 'jscroll-template': '{{template}}',
 }},
 
@@ -58,5 +60,6 @@ $(window).on('scroll', autoScroll);
 
 
 </script>
+
 
 

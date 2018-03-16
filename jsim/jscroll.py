@@ -8,30 +8,65 @@ from django.apps import apps
 import pickle
 from re import sub
 
+# class JScroll:
+    # def __init__(self, request, template, queryset):
+        # request.session['jscroll-%s' %  template] = queryset
+        # self.template = template
+# 
+    # def as_window(self):
+        # viewport = sub('/|\.', '', self.template)
+        # tmp = get_template('jsim/jscroll-window.html')
+        # data = tmp.render({'template': self.template,
+        # 'viewport': viewport})
+        # return data
+# 
+    # def as_div(self):
+        # viewport = sub('/|\.', '', self.template)
+        # tmp = get_template('jsim/jscroll.html')
+        # data = tmp.render({'template': self.template,
+        # 'viewport': viewport})
+        # return data
+# 
+# class JScrollView(View):
+    # def get(self, request):
+        # template  = request.GET.get('jscroll-template')
+        # page      = request.GET.get('page')
+        # queryset  = request.session['jscroll-%s' % template]
+# 
+        # paginator = Paginator(queryset, 20)
+        # elems     = paginator.page(page)
+        # return render(request, template, {'elems': elems})
+# 
+# 
+# 
+# 
+
 class JScroll:
-    def __init__(self, request, template, queryset):
-        request.session['jscroll-%s' %  template] = queryset
+    def __init__(self, token, template, queryset):
+        cache.set('%s-jscroll-%s' %  (token, template), queryset)
         self.template = template
+        self.token    = token
 
     def as_window(self):
         viewport = sub('/|\.', '', self.template)
         tmp = get_template('jsim/jscroll-window.html')
         data = tmp.render({'template': self.template,
-        'viewport': viewport})
+        'viewport': viewport, 'token': self.token})
         return data
 
     def as_div(self):
         viewport = sub('/|\.', '', self.template)
         tmp = get_template('jsim/jscroll.html')
         data = tmp.render({'template': self.template,
-        'viewport': viewport})
+        'viewport': viewport, 'token': self.token})
         return data
 
 class JScrollView(View):
     def get(self, request):
         template  = request.GET.get('jscroll-template')
         page      = request.GET.get('page')
-        queryset  = request.session['jscroll-%s' % template]
+        token     = request.GET.get('token')
+        queryset  = cache.get('%s-jscroll-%s' % (token, template))
 
         paginator = Paginator(queryset, 20)
         elems     = paginator.page(page)
