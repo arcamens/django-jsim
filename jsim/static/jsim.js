@@ -181,7 +181,7 @@ function getModal(modal) {
 
     error: function(data){
     $('#modalWait').modal('hide');
-    $('#MessageError').html(data);
+    $('#messageError').html(data);
     $('#modalError').modal('show');
     },
 
@@ -198,6 +198,7 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 
 
