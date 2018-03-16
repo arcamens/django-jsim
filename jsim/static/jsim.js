@@ -77,7 +77,6 @@ function do_get(e) {
 }
 
 function mPostClose(e) {
-    e.stopPropagation();
     e.preventDefault();
     $('#modalWait').modal('show');
     url = $(this).attr('href');
@@ -118,7 +117,6 @@ function mPostClose(e) {
 }
 
 function mPost(e) {
-    e.stopPropagation();
     e.preventDefault();
     $('#modalWait').modal('show');
 
@@ -167,7 +165,6 @@ function mPost(e) {
 
 function getModal(modal) {
     return function shell(e) {
-    e.stopPropagation();
     e.preventDefault();
     $('#modalWait').modal('show');
     url = $(this).attr('href');
@@ -201,6 +198,7 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 
 
