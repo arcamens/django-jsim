@@ -1,7 +1,7 @@
 ##############################################################################
 # push, update.
 
-cd ~/projects/django-jsim-code-code
+cd ~/projects/django-jsim-code
 git status
 git add *
 git commit -a
@@ -14,3 +14,8 @@ git checkout master
 git merge staging
 git push -u origin master
 git checkout staging
+##############################################################################
+
+git tag -a 0.0.1 -m 'Initial release'
+git push origin : 0.0.1
+
