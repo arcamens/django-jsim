@@ -1,4 +1,5 @@
 function do_post(e) {
+    e.preventDefault();
     $('#modalWait').modal('show');
 
     shell = $(this).attr('data-shell');
@@ -42,6 +43,7 @@ function do_post(e) {
 
 
 function do_get(e) {
+    e.preventDefault();
     $('#modalWait').modal('show');
 
     shell = $(this).attr('data-shell');
@@ -198,6 +200,7 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 
 
