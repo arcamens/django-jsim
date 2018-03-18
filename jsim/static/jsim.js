@@ -79,7 +79,7 @@ function do_get(e) {
 function mPostClose(e) {
     e.preventDefault();
     $('#modalWait').modal('show');
-    url = $(this).attr('href');
+    url = $(this).attr('data-show');
     shell = $(this).attr('data-shell');
     form  = $(this).attr('data-form');
 
@@ -120,7 +120,7 @@ function mPost(e) {
     e.preventDefault();
     $('#modalWait').modal('show');
 
-    url = $(this).attr('href');
+    url = $(this).attr('data-show');
     shell = $(this).attr('data-shell');
     form  = $(this).attr('data-form');
 
@@ -167,7 +167,7 @@ function getModal(modal) {
     return function shell(e) {
     e.preventDefault();
     $('#modalWait').modal('show');
-    url = $(this).attr('href');
+    url = $(this).attr('data-show');
 
     $.ajax({
     url: url,  //Server script to process data
@@ -198,6 +198,7 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 
 
