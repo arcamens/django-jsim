@@ -17,28 +17,34 @@ function do_post(e) {
     url: url,  //Server script to process data
     type: 'POST',
 
-    success: function(data) {
-    $('#modalWait').modal('hide');
+    complete: function(jqXHR, textStatus) {
+    switch (jqXHR.status) {
 
+    case 200: 
+    $(shell).html(jqXHR.responseText);
     eval(callback);
-    $(shell).html(data);
-    $(document).on('click', '.e-post', do_post);
-    },
 
-    error: function(data){
     $('#modalWait').modal('hide');
+    break;
+
+    case 400: 
+    $(shell_error).html(jqXHR.responseText);
     eval(callback_error);
-    $(shell_error).html(data.responseText);
-    $(document).on('click', '.e-post', do_post);
-    },
+    $('#modalWait').modal('hide');
+    break;
+
+    default: 
+    eval(callback_error);
+    $('#modalWait').modal('hide');
+    $('#modalError').modal('show');
+    $('#messageError').html(jqXHR.responseText);
+    }},
 
     data: formData,
     cache: false,
     contentType: false,
-    processData: false,
+    processData: false
     });
-
-    $(document).off('click', '.e-post', do_post);
 }
 
 
@@ -200,6 +206,7 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 
 
