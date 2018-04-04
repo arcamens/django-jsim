@@ -64,6 +64,16 @@ function do_get(e) {
         shell_error = '#messageError';
     }
 
+    var lst = $(shell).data('stack');
+
+    if(!lst) {
+        lst = [];
+        $(shell).data('stack', lst);
+    } else if(!url) {
+        lst.pop();
+        url = lst.pop();
+    }
+
     $.ajax({
     url: url,  //Server script to process data
     type: 'GET',
@@ -71,8 +81,9 @@ function do_get(e) {
     $('#modalWait').modal('hide');
     eval(callback);
     $(shell).html(data);
-
+    lst.push(url);
     },
+
     error: function(data){
     $('#modalWait').modal('hide');
     eval(callback_error);
@@ -177,6 +188,17 @@ function getModal(modal) {
     $('#modalWait').modal('show');
     url = $(this).attr('data-show');
 
+    var lst = $(modal).data('stack');
+
+    if(!lst) {
+        lst = [];
+        $(modal).data('stack', lst);
+    } else if(!url) {
+        lst.pop();
+        url = lst.pop();
+    }
+
+    console.log('m', lst);
     $.ajax({
     url: url,  //Server script to process data
     type: 'GET',
@@ -185,9 +207,10 @@ function getModal(modal) {
     $('#modalWait').modal('hide');
     $(modal).html(data);
     $(modal).closest('.modal').modal('show');
+    lst.push(url);
     },
 
-    error: function(data){
+    error: function(data) {
     $('#modalWait').modal('hide');
     $('#messageError').html(data.responseText);
     $('#modalError').modal('show');
@@ -206,15 +229,5 @@ $(document).on('click', '.b-modal', getModal('#bigModalContent'));
 $(document).on('click', '.s-modal', getModal('#modalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
-
-
-
-
-
-
-
-
-
-
 
 
