@@ -1,11 +1,9 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.template.loader import get_template
 from django.views.generic import View
-from django.db.models import QuerySet
 from django.core.cache import cache
 from django.shortcuts import render
 from django.apps import apps
-import pickle
 from re import sub
 
 # class JScroll:
@@ -44,21 +42,25 @@ from re import sub
 class JScroll:
     def __init__(self, token, template, queryset):
         cache.set('%s-jscroll-%s' %  (token, template), queryset)
+
+        # To render the first page initially.
+        paginator     = Paginator(queryset, 20)
+        self.elems    = paginator.page(1)
         self.template = template
         self.token    = token
 
     def as_window(self):
         viewport = sub('/|\.', '', self.template)
-        tmp = get_template('jsim/jscroll-window.html')
-        data = tmp.render({'template': self.template,
-        'viewport': viewport, 'token': self.token})
+        tmp      = get_template('jsim/jscroll-window.html')
+        data     = tmp.render({'template': self.template,
+        'viewport': viewport, 'elems': self.elems, 'token': self.token})
         return data
 
     def as_div(self):
         viewport = sub('/|\.', '', self.template)
-        tmp = get_template('jsim/jscroll.html')
-        data = tmp.render({'template': self.template,
-        'viewport': viewport, 'token': self.token})
+        tmp      = get_template('jsim/jscroll.html')
+        data     = tmp.render({'template': self.template,
+        'viewport': viewport, 'elems': self.elems, 'token': self.token})
         return data
 
 class JScrollView(View):
@@ -71,6 +73,7 @@ class JScrollView(View):
         paginator = Paginator(queryset, 20)
         elems     = paginator.page(page)
         return render(request, template, {'elems': elems})
+
 
 
 

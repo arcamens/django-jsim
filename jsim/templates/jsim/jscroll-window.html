@@ -1,5 +1,5 @@
 <div id="{{viewport}}">
-
+{% include template %}
 </div>
 
 <script>
@@ -38,28 +38,29 @@ function autoScroll() {
 
         console.log('Page error', count);
         }});
-        console.log('scrolling', count);
 
     }
 }
 
-$.get({ 
-url: "{% url 'jsim:jscroll-view' %}",
-data: {
-page : 1,
-token: {{token}},
-'jscroll-template': '{{template}}',
-}},
+// $.get({ 
+// url: "{% url 'jsim:jscroll-view' %}",
+// data: {
+// page : 1,
+// token: {{token}},
+// 'jscroll-template': '{{template}}',
+// }},
 
-function(data) {
-$('#{{viewport}}').html('');
-$('#{{viewport}}').append(data);
+// function(data) {
+// $('#{{viewport}}').html('');
+// $('#{{viewport}}').append(data);
+// $(window).on('scroll', autoScroll);
+// 
+// });
+
 $(window).on('scroll', autoScroll);
 
-});
-
-
 </script>
+
 
 
 
