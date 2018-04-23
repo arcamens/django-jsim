@@ -226,8 +226,10 @@ function getModal(modal) {
 $(document).on('click', '.e-get', do_get);
 $(document).on('click', '.e-post', do_post);
 $(document).on('click', '.b-modal', getModal('#bigModalContent'));
-$(document).on('click', '.s-modal', getModal('#modalContent'));
+$(document).on('click', '.s-modal', getModal('#smallModalContent'));
+$(document).on('click', '.n-modal', getModal('#mediumModalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
+
 
 

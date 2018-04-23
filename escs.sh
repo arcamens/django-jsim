@@ -25,7 +25,5 @@ git push origin :0.0.7
 git tag -a 1.0.7
 git push origin : 1.0.7
 
-git tag -d 1.0.7
-git push origin :1.0.7
 
 
