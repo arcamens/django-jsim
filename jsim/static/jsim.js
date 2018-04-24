@@ -231,5 +231,8 @@ $(document).on('click', '.n-modal', getModal('#mediumModalContent'));
 $(document).on('click', '.m-post-close', mPostClose);
 $(document).on('click', '.m-post', mPost);
 
-
+$(document).on('submit', 'form', function(e) {
+    e.preventDefault();
+    $('[data-form="#' + $(this).attr('id') + '"]').click();
+});
 
