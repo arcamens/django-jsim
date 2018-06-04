@@ -79,15 +79,15 @@ function do_get(e) {
     type: 'GET',
     success: function(data) {
     $('#modalWait').modal('hide');
-    eval(callback);
     $(shell).html(data);
+    eval(callback);
     lst.push(url);
     },
 
     error: function(data){
     $('#modalWait').modal('hide');
-    eval(callback_error);
     $(shell_error).html(data.responseText);
+    eval(callback_error);
     },
     cache: false,
     contentType: false,
@@ -235,4 +235,5 @@ $(document).on('submit', 'form', function(e) {
     e.preventDefault();
     $('[data-form="#' + $(this).attr('id') + '"]').click();
 });
+
 
