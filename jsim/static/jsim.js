@@ -4,11 +4,20 @@ function do_post(e) {
     $(current).closest('.modal').modal('hide');
     $('#modalWait').modal('show');
     
+    /* If it is null then the content should be loaded
+    in the actual modal. */
     shell = $(this).attr('data-shell');
     if(shell == null) {
         shell = current;
     } 
 
+    /* If it is null then the actual shell_error is supposed 
+    to be a modal window. 
+    Note: It is used just for HTTP 400 errors.*/
+    shell_error = $(this).attr('data-shell-error');
+    if(shell_error == null) {
+        shell_error = current;
+    } 
 
     callback_error = $(this).attr('data-callback-error');
     callback = $(this).attr('data-callback');
@@ -34,10 +43,10 @@ function do_post(e) {
     break;
 
     case 400: 
-    $(shell).html(jqXHR.responseText);
+    $(shell_error).html(jqXHR.responseText);
     eval(callback_error);
     $('#modalWait').modal('hide');
-    $(shell).closest('.modal').modal('show');
+    $(shell_error).closest('.modal').modal('show');
     break;
 
     default: 
@@ -45,8 +54,7 @@ function do_post(e) {
     $('#modalWait').modal('hide');
     $('#messageError').html(jqXHR.responseText);
     $('#modalError').modal('show');
-    $(current).closest('.modal').modal('show');
-
+    $(shell_error).closest('.modal').modal('show');
     }},
 
     data: formData,
@@ -145,6 +153,7 @@ $(document).on('submit', 'form', function(e) {
     e.preventDefault();
     $('[data-form="#' + $(this).attr('id') + '"]').click();
 });
+
 
 
 
