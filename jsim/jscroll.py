@@ -6,62 +6,36 @@ from django.shortcuts import render
 from django.apps import apps
 from re import sub
 
-# class JScroll:
-    # def __init__(self, request, template, queryset):
-        # request.session['jscroll-%s' %  template] = queryset
-        # self.template = template
-# 
-    # def as_window(self):
-        # viewport = sub('/|\.', '', self.template)
-        # tmp = get_template('jsim/jscroll-window.html')
-        # data = tmp.render({'template': self.template,
-        # 'viewport': viewport})
-        # return data
-# 
-    # def as_div(self):
-        # viewport = sub('/|\.', '', self.template)
-        # tmp = get_template('jsim/jscroll.html')
-        # data = tmp.render({'template': self.template,
-        # 'viewport': viewport})
-        # return data
-# 
-# class JScrollView(View):
-    # def get(self, request):
-        # template  = request.GET.get('jscroll-template')
-        # page      = request.GET.get('page')
-        # queryset  = request.session['jscroll-%s' % template]
-# 
-        # paginator = Paginator(queryset, 20)
-        # elems     = paginator.page(page)
-        # return render(request, template, {'elems': elems})
-# 
-# 
-# 
-# 
-
 class JScroll:
-    def __init__(self, token, template, queryset):
+    def __init__(self, token, template, queryset, request=None, context={}):
         cache.set('%s-jscroll-%s' %  (token, template), queryset)
+        cache.set('%s-jscroll-context-%s' %  (token, template), context)
 
         # To render the first page initially.
         paginator     = Paginator(queryset, 20)
         self.elems    = paginator.page(1)
         self.template = template
         self.token    = token
+        self.request  = request
+        self.context  = context
 
     def as_window(self):
         viewport = sub('/|\.', '', self.template)
         tmp      = get_template('jsim/jscroll-window.html')
-        data     = tmp.render({'template': self.template,
-        'viewport': viewport, 'elems': self.elems, 'token': self.token})
-        return data
+        tmpctx   = {'template': self.template,
+        'viewport': viewport, 'elems': self.elems, 'token': self.token}
+
+        tmpctx.update(self.context)
+        return tmp.render(tmpctx, self.request)
 
     def as_div(self):
         viewport = sub('/|\.', '', self.template)
         tmp      = get_template('jsim/jscroll.html')
-        data     = tmp.render({'template': self.template,
-        'viewport': viewport, 'elems': self.elems, 'token': self.token})
-        return data
+        tmpctx   = {'template': self.template,
+        'viewport': viewport, 'elems': self.elems, 'token': self.token}
+
+        tmpctx.update(self.context)
+        return tmp.render(tmpctx, self.request)
 
 class JScrollView(View):
     def get(self, request):
@@ -69,13 +43,12 @@ class JScrollView(View):
         page      = request.GET.get('page')
         token     = request.GET.get('token')
         queryset  = cache.get('%s-jscroll-%s' % (token, template))
+        context   = cache.get('%s-jscroll-context-%s' % (token, template))
 
         paginator = Paginator(queryset, 20)
         elems     = paginator.page(page)
-        return render(request, template, {'elems': elems})
+        tmpctx    = {'elems': elems}
 
-
-
-
-
+        tmpctx.update(context)
+        return render(request, template, tmpctx)
 
