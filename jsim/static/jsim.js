@@ -54,7 +54,9 @@ function do_post(e) {
     $('#modalWait').modal('hide');
     $('#messageError').html(jqXHR.responseText);
     $('#modalError').modal('show');
-    $(shell_error).closest('.modal').modal('show');
+    $('#modalError').one('hidden.bs.modal', function () {
+            $(shell_error).closest('.modal').modal('show');
+        });
     }},
 
     data: formData,
@@ -109,7 +111,9 @@ function do_get(e) {
     $('#modalWait').modal('hide');
     $('#messageError').html(data.responseText);
     $('#modalError').modal('show');
-    $(current).closest('.modal').modal('show');
+    $('#modalError').one('hidden.bs.modal', function () {
+            $(current).closest('.modal').modal('show');
+        });
     },
     cache: false,
     contentType: false,
@@ -153,6 +157,7 @@ $(document).on('submit', 'form', function(e) {
     e.preventDefault();
     $('[data-form="#' + $(this).attr('id') + '"]').click();
 });
+
 
 
 
