@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name="jsim",
-      version="1.0.8",
+      version="1.1.0",
       description="",
       packages=["jsim", "jsim.templatetags", 
       "jsim.templates", "jsim.static", "jsim.templates.jsim"],
@@ -16,6 +16,7 @@ setup(name="jsim",
       download_url='',
       keywords=[],
       classifiers=[])
+
 
 
 
