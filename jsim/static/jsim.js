@@ -121,42 +121,15 @@ function do_get(e) {
     });
 }
 
-function r_get(e) {
-    e.preventDefault();
-    current = $(e.target).closest('.modal-content');
-    // $(current).closest('.modal').modal('hide');
-    $('#modalWait').modal('show');
-    url = $(this).attr('data-show');
-
-    $.ajax({
-    url: url,  //Server script to process data
-    type: 'GET',
-
-    success: function(data) {
-    $('#modalWait').modal('hide');
-    $(e.target).closest('.rm').remove();
-    // $(current).closest('.modal').modal('show');
-    },
-
-    error: function(data){
-    $('#modalWait').modal('hide');
-    $('#messageError').html(data.responseText);
-    $('#modalError').modal('show');
-    },
-    cache: false,
-    contentType: false,
-    processData: false
-    });
-}
-
 $(document).on('click', '.e-get', do_get);
 $(document).on('click', '.e-post', do_post);
-$(document).on('click', '.r-get', r_get);
+$(document).on('click', '.r-post', do_post);
 
 $(document).on('submit', 'form', function(e) {
     e.preventDefault();
-    $('[data-form="#' + $(this).attr('id') + '"]').click();
+    $('.e-post[data-form="#' + $(this).attr('id') + '"]').click();
 });
+
 
 
 
