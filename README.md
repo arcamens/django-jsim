@@ -1,6 +1,9 @@
 # django-jsim
 
-This package is used to ease deployment of Jsim javascript library. 
+This package is used to ease deployment of Jsim javascript library.
+
+https://github.com/arcamens/jsim
+
 The jsim library is a javascript library on top of JQuery to quickly
 prototype web sites.
 
