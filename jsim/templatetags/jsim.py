@@ -1,6 +1,5 @@
 from django import template
 from django.core.paginator import Paginator
-from django.core.urlresolvers import reverse
 
 register = template.Library()
 
@@ -41,4 +40,5 @@ def jsim():
 # 
 # 
 # 
+
 

@@ -90,7 +90,7 @@ function do_get(e) {
         $(shell).data('stack', lst);
     } else if(!url) {
         lst.pop();
-        url = lst.pop();
+        [shell, url] = lst.pop();
     }
 
     $.ajax({
@@ -103,7 +103,7 @@ function do_get(e) {
     $(shell).html(data);
 
     $(shell).closest('.modal').modal('show');
-    lst.push(url);
+    lst.push([shell, url]);
     },
 
     error: function(data){
@@ -129,6 +129,7 @@ $(document).on('submit', 'form', function(e) {
     e.preventDefault();
     $('.e-post[data-form="#' + $(this).attr('id') + '"]').click();
 });
+
 
 
 
